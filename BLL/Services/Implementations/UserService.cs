@@ -1,8 +1,10 @@
 ﻿using BLL.Dto;
 using BLL.Services.Interfaces;
+using DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -12,10 +14,10 @@ namespace BLL.Services.Implementations
 {
     public class UserService : IUserService
     {
-        private UserManager<IdentityUser> _userManager;
+        private UserManager<User> _userManager;
         private IConfiguration _configuration;
 
-        public UserService(UserManager<IdentityUser> userManager, IConfiguration configuration)
+        public UserService(UserManager<User> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _configuration = configuration;
@@ -26,7 +28,7 @@ namespace BLL.Services.Implementations
             if (userRegistrationDto == null || (userRegistrationDto.Password != userRegistrationDto.ConfirmPassword))
                 return null;
 
-            var identityUser = new IdentityUser
+            var identityUser = new User
             {
                 Email = userRegistrationDto.Email,
                 UserName = userRegistrationDto.Email
@@ -34,7 +36,7 @@ namespace BLL.Services.Implementations
 
             var result = await _userManager.CreateAsync(identityUser, userRegistrationDto.Password);
 
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
                 var user = await _userManager.FindByEmailAsync(userRegistrationDto.Email);
                 return new UserDto() { Email = userRegistrationDto.Email, Token = GetUserToken(userRegistrationDto.Email, user.Id) };
@@ -67,7 +69,12 @@ namespace BLL.Services.Implementations
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AuthSettings:Key"]));
 
-            var token = new JwtSecurityToken(claims: claims, signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
+            var token = new JwtSecurityToken(
+                issuer: _configuration["AuthSettings:Issuer"],
+                audience: _configuration["AuthSettings:Audience"],
+                claims: claims, 
+                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256), 
+                expires: DateTime.Now.AddDays(30));
 
             var tokenAsString = new JwtSecurityTokenHandler().WriteToken(token);
 
