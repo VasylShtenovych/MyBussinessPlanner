@@ -25,5 +25,12 @@ namespace API.Controller
             var result = await _userService.RegisterUserAsync(userRegistrationDto);
             return result != null ? Ok(result) : BadRequest();
         }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> LognAsync([FromBody] UserLoginDto userLoginDto)
+        {
+            var result = await _userService.LoginUserAsync(userLoginDto);
+            return result != null ? Ok(result) : BadRequest();
+        }
     }
 }
