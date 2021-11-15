@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBusinessPlanner", "MyBusinessPlanner\MyBusinessPlanner.csproj", "{6D6E688A-F67D-4AA2-92FD-2E65D507C10B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "MyBusinessPlanner\API.csproj", "{6D6E688A-F67D-4AA2-92FD-2E65D507C10B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{A7BA39CC-2A8A-41DE-91D2-A1B27F2FB751}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{05758539-FE92-4E9E-B3A9-AC70887A7D8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{6D6E688A-F67D-4AA2-92FD-2E65D507C10B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D6E688A-F67D-4AA2-92FD-2E65D507C10B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D6E688A-F67D-4AA2-92FD-2E65D507C10B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7BA39CC-2A8A-41DE-91D2-A1B27F2FB751}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7BA39CC-2A8A-41DE-91D2-A1B27F2FB751}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7BA39CC-2A8A-41DE-91D2-A1B27F2FB751}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7BA39CC-2A8A-41DE-91D2-A1B27F2FB751}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05758539-FE92-4E9E-B3A9-AC70887A7D8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05758539-FE92-4E9E-B3A9-AC70887A7D8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05758539-FE92-4E9E-B3A9-AC70887A7D8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05758539-FE92-4E9E-B3A9-AC70887A7D8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
