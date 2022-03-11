@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,10 +25,13 @@ namespace BLL.Services.Implementations
             _configuration = configuration;
         }
 
-        public async Task<UserDto> RegisterUserAsync(UserRegistrationDto userRegistrationDto)
+        public async Task<(UserDto userDto, IEnumerable<String> errors)> RegisterUserAsync(UserRegistrationDto userRegistrationDto)
         {
-            if (userRegistrationDto == null || (userRegistrationDto.Password != userRegistrationDto.ConfirmPassword))
-                return null;
+            if (userRegistrationDto == null)
+                throw new ArgumentNullException();
+
+            if (userRegistrationDto.Password != userRegistrationDto.ConfirmPassword)
+                return (null, new List<string> { "Confirm password doesn't match the password" });
 
             var identityUser = new User
             {
@@ -39,10 +44,15 @@ namespace BLL.Services.Implementations
             if (result.Succeeded)
             {
                 var user = await _userManager.FindByEmailAsync(userRegistrationDto.Email);
-                return new UserDto() { Email = userRegistrationDto.Email, Token = GetUserToken(userRegistrationDto.Email, user.Id) };
+                var userDto = new UserDto()
+                {
+                    Email = userRegistrationDto.Email,
+                    Token = GetUserToken(userRegistrationDto.Email, user.Id)
+                };
+                return ( userDto, null);
             }
 
-            return null;
+            return (null, result.Errors.Select(e => e.Description));
         }
         public async Task<UserDto> LoginUserAsync(UserLoginDto userLoginDto)
         {

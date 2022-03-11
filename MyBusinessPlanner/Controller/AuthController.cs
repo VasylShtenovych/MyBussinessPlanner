@@ -22,8 +22,8 @@ namespace API.Controller
         [HttpPost("Register")]
         public async Task<IActionResult> RegisterAsync([FromBody]UserRegistrationDto userRegistrationDto)
         {
-            var result = await _userService.RegisterUserAsync(userRegistrationDto);
-            return result != null ? Ok(result) : BadRequest();
+            var (usedDto,errors) = await _userService.RegisterUserAsync(userRegistrationDto);
+            return usedDto != null ? Ok(usedDto) : BadRequest(new { errors = errors });
         }
 
         [HttpPost("Login")]
